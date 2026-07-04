@@ -37,6 +37,9 @@ jobs:
           
           if [ -n "$use_worker_assets" ]; then
             cd frontend/
+            # 注入Google AdSense前端环境变量
+            echo "VITE_GOOGLE_AD_CLIENT=${{ secrets.VITE_GOOGLE_AD_CLIENT }}" > .env.production
+            echo "VITE_GOOGLE_AD_SLOT=${{ secrets.VITE_GOOGLE_AD_SLOT }}" >> .env.production
             pnpm install --no-frozen-lockfile
             if [ -n "$use_worker_assets_with_telegram" ]; then
               echo "Building with telegram pages"
@@ -81,3 +84,6 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           # ✅ 将 secret 映射到环境变量中
           WRANGLER_TOML_CONTENT: ${{ secrets.BACKEND_TOML }}
+          # 新增AdSense密钥映射
+          VITE_GOOGLE_AD_CLIENT: ${{ secrets.VITE_GOOGLE_AD_CLIENT }}
+          VITE_GOOGLE_AD_SLOT: ${{ secrets.VITE_GOOGLE_AD_SLOT }}
